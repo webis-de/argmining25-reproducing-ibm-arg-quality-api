@@ -1,0 +1,10 @@
+*.pyc
+*.json
+*.csv
+*.xml
+*.~lock
+
+**/__pycache__
+
+.idea
+**/models
