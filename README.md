@@ -1,8 +1,8 @@
-# Argument_Quality_Retraining
+# Reproducing the Argument Quality Prediction Model of IBM's Project Debater
 
 This repository provides training code for the paper 'Reproducing the Argument Quality Prediction of Project Debater'.
 
-You can download the models `WA2` and `MACE-P2` from (TODO).
+You can download the models `WA2` and `MACE-P2` from Huggingface: [webis/argument-quality-ibm-reproduced](https://huggingface.co/webis/argument-quality-ibm-reproduced).
 
 Install the necessary packages via `pip install -r requirements.txt`.
 
@@ -16,7 +16,26 @@ To finetune the BERT model with the specified parameters, run `python main.py`. 
 ## Apply model
 To evaluate a finetuned model on external data (defined in `argspath`), pass the model name as parameter running `python main.py --modelname=<model_name>`.
 
-If you use this model, please cite our paper:
+## Citation
+If you use the models or the code in your research, please cite the following paper describing the retraining and evaluation process:
 
-TODO
+> Ines Zelch, Matthias Hagen, Benno Stein, and Johannes Kiesel. [Reproducing the Argument Quality Prediction of Project Debater.](https://webis.de/publications.html#zelch_2025b), In Proceedings of the _12th Workshop on Argument Mining_, July 2025.
+
+
+You can use the following BibTeX entry for citation:
+
+```bibtex
+@InProceedings{zelch:2025,
+    author = {Ines Zelch and Matthias Hagen and Benno Stein and Johannes Kiesel},
+    booktitle = {12th Workshop on Argument Mining (ArgMining 2025) at ACL},
+    doi = {tbd},
+    editor = {tbd},
+    month = jul,
+    numpages = 15,
+    pages = {tbd},
+    title = {{Reproducing the Argument Quality Prediction of Project Debater}},
+    url = tbd,
+    year = 2025
+}
+```
 

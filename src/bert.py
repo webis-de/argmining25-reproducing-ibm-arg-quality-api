@@ -4,19 +4,18 @@ import json
 import datetime
 import time
 import math
+from sklearn.metrics import mean_squared_error
+from scipy.stats import spearmanr, pearsonr
+import pandas as pd
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
-
 from transformers import BertTokenizer, BertModel, BertForSequenceClassification, AdamW, get_linear_schedule_with_warmup
 
 from .utils import get_device, format_time
 from .utils import set_seed
 from .dataset import get_dataloader, load_data
 
-from sklearn.metrics import mean_squared_error
-from scipy.stats import spearmanr, pearsonr
-import pandas as pd
 
 DEVICE = get_device()
 
@@ -108,7 +107,8 @@ class MyBertModel:
         if self.type == 'custom':
             self.model.load_state_dict(
                 torch.load(
-                    os.path.join(path, "model.pt"), weights_only=True))
+                    os.path.join(path, "model.pt"), weights_only=True,
+                    map_location=torch.device(DEVICE)))
 
         # weights for sequence type get loaded in the __init__
 
