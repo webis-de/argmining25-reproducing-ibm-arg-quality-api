@@ -28,13 +28,13 @@ You can use the following BibTeX entry for citation:
 @InProceedings{zelch:2025,
     author = {Ines Zelch and Matthias Hagen and Benno Stein and Johannes Kiesel},
     booktitle = {12th Workshop on Argument Mining (ArgMining 2025) at ACL},
-    doi = {tbd},
-    editor = {tbd},
+    doi = {10.18653/v1/2025.argmining-1.17},
+    editor = {Elena Chistova, Philipp Cimiano, Shohreh Haddadan, Gabriella Lapesa, Ramon Ruiz-Dolz},
     month = jul,
     numpages = 15,
-    pages = {tbd},
+    pages = {181--188},
     title = {{Reproducing the Argument Quality Prediction of Project Debater}},
-    url = tbd,
+    url = {https://aclanthology.org/2025.argmining-1.17/},
     year = 2025
 }
 ```
