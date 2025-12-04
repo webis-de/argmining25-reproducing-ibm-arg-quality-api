@@ -10,7 +10,8 @@ import pandas as pd
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
-from transformers import BertTokenizer, BertModel, BertForSequenceClassification, AdamW, get_linear_schedule_with_warmup
+from transformers import BertTokenizer, BertModel, RobertaModel, BertForSequenceClassification, AdamW, get_linear_schedule_with_warmup
+from huggingface_hub import PyTorchModelHubMixin
 
 from .utils import get_device, format_time
 from .utils import set_seed
@@ -21,14 +22,34 @@ DEVICE = get_device()
 
 
 
+class CustomRoBERTa(nn.Module, PyTorchModelHubMixin):
+
+    def __init__(self, num_labels, dropout_rate):
+        super(CustomRoBERTa, self).__init__()
+        self.bert = RobertaModel.from_pretrained("roberta-base", num_labels=num_labels)
+        self.dropout = nn.Dropout(dropout_rate)
+        self.classifier = nn.Linear(self.bert.config.hidden_size, 1)
+        self.classifier.bias.data.fill_(0)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, ids, mask):
+        outputs = self.bert(input_ids=ids, attention_mask=mask)
+
+        outputs = outputs.last_hidden_state[:, 0, :]
+        # outputs = outputs[1]
+
+        outputs = self.dropout(outputs)
+        outputs = self.classifier(outputs)
+        outputs = self.sigmoid(outputs)
+        return outputs
 
 
-class CustomBERTModel(nn.Module):
+class CustomBERTModel(nn.Module, PyTorchModelHubMixin):
 
-    def __init__(self, num_labels):
+    def __init__(self, num_labels, dropout_rate):
         super(CustomBERTModel, self).__init__()
         self.bert = BertModel.from_pretrained("bert-base-uncased", num_labels=num_labels)
-        self.dropout = nn.Dropout(0.1)
+        self.dropout = nn.Dropout(dropout_rate)
         self.classifier = nn.Linear(self.bert.config.hidden_size, 1)
         self.classifier.bias.data.fill_(0)
         self.sigmoid = nn.Sigmoid()
@@ -53,9 +74,13 @@ class MyBertModel:
         self.config = config
         self.name = model_path.rsplit("/", 1)[1] if model_path is not None else ""
 
-        if self.type == 'custom':
-            self.model = CustomBERTModel(config['num_labels'])
+        if self.type == 'customBERT':
+            self.model = CustomBERTModel(config['num_labels'], config["dropout_rate"])
             self.criterion = nn.MSELoss() if config["loss"] == "mse" else nn.BCEWithLogitsLoss()
+
+        elif self.type == 'customRoBERTa':
+            self.model = CustomRoBERTa(config['num_labels'], config["dropout_rate"])
+            self.criterion = nn.MSELoss() if config['loss'] == 'mse' else nn.BCEWithLogitsLoss()
 
         elif self.type == 'sequence':
             if model_path:
@@ -65,7 +90,7 @@ class MyBertModel:
                 )
             else:
                 self.model = BertForSequenceClassification.from_pretrained(
-                    "bert-base-uncased",
+                    'bert-base-uncased',
                     num_labels=config['num_labels']
                 )
 

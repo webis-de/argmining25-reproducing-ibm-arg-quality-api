@@ -2,7 +2,7 @@
 *.json
 *.csv
 *.xml
-*.~lock
+*.~lock*
 
 **/__pycache__
 
