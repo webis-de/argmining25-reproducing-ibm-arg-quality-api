@@ -1,0 +1,11 @@
+pyxis: imported docker image: registry.webis.de/code-research/arguana/argmining25-reproducing-ibm-arg-quality-api:0.0.1
+start main
+Be aware, overflowing tokens are not returned for the setting you have chosen, i.e. sequence pairs with the 'longest_first' truncation strategy. So the returned list will always be empty even if some tokens have been removed.
+GPU(s) available.We will use: NVIDIA A100-SXM4-40GB MIG 2g.10gb
+bert_custom_2025_04_16_8:56:59_0 - mace-p
+testset
+/mnt/ceph/storage/data-tmp/current/izelch/Argument_Quality_Retraining/data//testset_scores_bert_custom_2025_04_16_8:56:59_0.csv
+MSE = 0.0997473394088185, Pearson = PearsonRResult(statistic=0.5374510315085115, pvalue=0.0), Spearman = SignificanceResult(statistic=0.5230677934399203, pvalue=0.0)
+arguments data
+/mnt/ceph/storage/data-tmp/current/izelch/Argument_Quality_Retraining/data//sentence_scores_bert_custom_2025_04_16_8:56:59_0.csv
+MSE = 0.08143615659050088, RMSE = 0.28537020971100135, Pearson = PearsonRResult(statistic=0.8379815253920048, pvalue=8.818168064696092e-300), Spearman = SignificanceResult(statistic=0.837737637299051, pvalue=1.9157118068037386e-299)
